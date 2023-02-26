@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 
-const HeroSection = ({myData}) => {
+const HeroSection = ({ myData }) => {
   // console.log("anything ~ myData",myData);
-  const {name} = myData;
+  const { name, desc} = myData;
 
   return (
     <Wrapper>
@@ -15,13 +15,7 @@ const HeroSection = ({myData}) => {
             <p className="intro-data common-heading">Welcome to</p>
             <h1>{name}</h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {desc}
             </p>
             <NavLink>
               <Button>Show More</Button>
@@ -30,7 +24,11 @@ const HeroSection = ({myData}) => {
           {/* Our Homepage Image */}
           <div className="hero-section-image">
             <figure>
-              <img src="images/shoppingimg.png" alt="i" className="img-style"></img>
+              <img
+                src="images/shoppingimg.png"
+                alt="i"
+                className="img-style"
+              ></img>
             </figure>
           </div>
         </div>
