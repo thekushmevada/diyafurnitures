@@ -3,7 +3,7 @@ import HeroSection from './components/HeroSection'
 
 const About = () => {
   const data = {
-    name: "Diya Furnitures",
+    name: "Diya Furnitures : ECommerce",
   }
   return <HeroSection myData={data}/>
 }
