@@ -12,7 +12,7 @@ const HeroSection = ({myData}) => {
       <div className="container">
         <div className="grid grid-two-column">
           <div className="hero-section-data">
-            <p className="intro-data">Welcome to</p>
+            <p className="intro-data common-heading">Welcome to</p>
             <h1>{name}</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
