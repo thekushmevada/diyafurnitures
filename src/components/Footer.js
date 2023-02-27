@@ -59,7 +59,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="footer-contact">
-              <h3>Call or WhatsApp Us</h3>
+              <a href="tel:+918200565810"><h3>Call</h3></a> <h3> or WhatsApp Us</h3>
               <a href="https://wa.link/dq11nn"><h3>+91 8200565810</h3></a>             
             </div>
           </div>
