@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<Error />} />
         </Routes>
-        <Footer/>
+        {/* <Footer/> */}
       </Router>
     </ThemeProvider>
   );
