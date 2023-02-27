@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { FaDiscord, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -17,7 +17,7 @@ const Footer = () => {
 
             <div>
               <Button className="btn hireme-btn">
-                <NavLink to="/"> Get Started </NavLink>
+                <NavLink to="/contact"> Get Started </NavLink>
               </Button>
             </div>
           </div>
@@ -27,8 +27,8 @@ const Footer = () => {
         <footer>
           <div className="container grid grid-four-column">
             <div className="footer-about">
-              <h3>Thapa Technical</h3>
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
+              <h3>Diya Furnitures</h3>
+              <p>We will happy to connect with you :)</p>
             </div>
             <div className="footer-subscribe">
               <h3>Subscribe to get important updates</h3>
@@ -42,15 +42,17 @@ const Footer = () => {
               <h3>Follow Us</h3>
               <div className="footer-social--icons">
                 <div>
-                  <FaDiscord className="icons" />
+                  <a href="https://www.facebook.com/DiyaFurnitures18">
+                    <FaFacebook className="icons" />
+                  </a>
                 </div>
                 <div>
-                  <FaInstagram className="icons" />
+                  <a href="https://www.instagram.com/diya_furnitures/">
+                    <FaInstagram className="icons" />
+                  </a>
                 </div>
                 <div>
-                  <a
-                    href="https://www.youtube.com/channel/UCwfaAHy4zQUb2APNOGXUCCA"
-                    target="_blank">
+                  <a href="https://www.youtube.com/channel/UCa6-_dFmwZOQC0J8pX3_gIA">
                     <FaYoutube className="icons" />
                   </a>
                 </div>
@@ -58,7 +60,7 @@ const Footer = () => {
             </div>
             <div className="footer-contact">
               <h3>Call Us</h3>
-              <h3>+91 12345678978</h3>
+              <a href="https://wa.link/dq11nn"><h3>+91 8200565810</h3></a>             
             </div>
           </div>
 
