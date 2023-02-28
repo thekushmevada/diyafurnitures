@@ -1,9 +1,7 @@
 import React from 'react'
 import HeroSection from './components/HeroSection'
-import { useProductContext } from './context/productcontext';
 
 const About = () => {
-  const {myName} = useProductContext();
 
   const data = {
     name: "Diya Furnitures : ECommerce",
@@ -11,7 +9,7 @@ const About = () => {
   }
   return (
     <>
-    {/* {myName} */}
+   
       <HeroSection myData={data}/>
     </>
   );
