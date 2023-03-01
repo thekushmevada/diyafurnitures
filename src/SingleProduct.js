@@ -15,18 +15,18 @@ const SingleProduct = () => {
   const {id} = useParams();
 
   const{
-    _id: /*alias, */
+    _id: alias, 
     name,
     company,
     price,
     description,
-   /* category, */
+    category, 
     stock,
     stars,
     reviews,
     image,
-
   }=singleProduct;
+  
   useEffect(() => {
     getSingleProduct(`${API}/${id}`);
   }, [])

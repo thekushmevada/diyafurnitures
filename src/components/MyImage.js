@@ -1,29 +1,40 @@
-import React,{useState} from "react";
-import styled from "styled-components";
+import React,{useState} from 'react';
+import styled from 'styled-components';
 
-const MyImage = ({imgs}) => {
-    // console.log(imgs);
-    const [mainImage, setMainImage] = useState(imgs[0]);
+const MyImage = ({imgs = []}) => {
 
-    return(
-        <Wrapper>
-            <div className="grid grid-four-column">
-                {
-                  imgs.map((CurElm) => {
-                    return(
-                      <figure>
-                        <img src={CurElm} alt="Hello" onClick={() => setMainImage(CurElm)} />
-                      </figure>
-                    )
-                  })
-                }
-            </div>
-            {/* 2nd column */}
-            <div className="main-scrren">
-              <img src={mainImage} alt="Hello2" />
-            </div>
-        </Wrapper>
-    );
+  const [mainImage , setMainImage ] = useState(imgs[0]);
+
+  console.log(imgs);
+  return (
+    <Wrapper>
+      <div className='grid grid-four-column'>
+        {
+          imgs.map((CurElm) => {
+            return(
+              <figure>
+                <img
+                  src={CurElm}
+                  alt="Hello"
+                  className='box-image--style'
+                  key={CurElm}
+                  onClick={()=> setMainImage(CurElm)}
+                />
+              </figure>
+            )
+          })
+        }
+      </div>
+
+      {/* 2nd column */}
+      <div className='main-screen'>
+        <img
+          src={mainImage}
+          alt="Hello"
+        />
+      </div>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`
@@ -71,4 +82,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default MyImage;
+export default MyImage
