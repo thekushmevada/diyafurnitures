@@ -8,6 +8,7 @@ import { Container } from "./styles/Container";
 import FormatPrice from "./Helpers/FormatPrice";
 import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
+import Star from "./components/Star";
 
 const API = "https://productssapi.onrender.com/products";
 const SingleProduct = () => {
@@ -26,7 +27,7 @@ const SingleProduct = () => {
     reviews,
     image,
   }=singleProduct;
-  
+
   useEffect(() => {
     getSingleProduct(`${API}/${id}`);
   }, [])
@@ -48,8 +49,8 @@ const SingleProduct = () => {
         {/* product dAta  */}
         <div className="product-data">
           <h2>{name}</h2>
-          <p>{stars}</p>
-          <p>{reviews} reviews</p>
+          <Star stars={stars} review={reviews} />
+          
           <p className="product-data-price">
             MRP:
             <del>

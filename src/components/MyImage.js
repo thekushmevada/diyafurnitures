@@ -5,7 +5,6 @@ const MyImage = ({imgs = []}) => {
 
   const [mainImage , setMainImage ] = useState(imgs[0]);
 
-  console.log(imgs);
   return (
     <Wrapper>
       <div className='grid grid-four-column'>
