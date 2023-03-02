@@ -22,7 +22,7 @@ const filterReducer = (state, action) => {
     case "GET_SORT_VALUE":
       // let userSortValue = document.getElementById("sort");
       // let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
-      
+
       return {
         ...state,
         sorting_value: action.payload,
@@ -32,19 +32,15 @@ const filterReducer = (state, action) => {
       let newSortData;
       // let tempSortData = [...action.payload];
 
-      const {filter_products} = state;
+      const { filter_products } = state;
       let tempSortData = [...filter_products];
 
-      const sortingProducts = (a,b) => {
-        if (state.sorting_value === "lowest")
-          return a.price - b.price;
-        if (state.sorting_value === "highest")
-          return b.price - a.price;
-        if (state.sorting_value === "a-z")
-          return a.name.localeCompare(b.name);
-        if (state.sorting_value === "z-a") 
-          return b.name.localeCompare(a.name);
-      }
+      const sortingProducts = (a, b) => {
+        if (state.sorting_value === "lowest") return a.price - b.price;
+        if (state.sorting_value === "highest") return b.price - a.price;
+        if (state.sorting_value === "a-z") return a.name.localeCompare(b.name);
+        if (state.sorting_value === "z-a") return b.name.localeCompare(a.name);
+      };
 
       newSortData = tempSortData.sort(sortingProducts);
 
@@ -52,6 +48,35 @@ const filterReducer = (state, action) => {
         ...state,
         filter_products: newSortData,
       };
+
+    case "UPDATE_FILTERS_VALUE":
+      const { name, value } = action.payload;
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [name]: value,
+        },
+      };
+
+      case "FILTER_PRODUCTS":
+        let { all_products } = state;
+        let tempFilterProduct = [...all_products];
+  
+        const { text } = state.filters;
+  
+        if (text) {
+          tempFilterProduct = tempFilterProduct.filter((curElem) => {
+            return curElem.name.toLowerCase().includes(text);
+          });
+        }
+
+        return {
+          ...state,
+          filter_products: tempFilterProduct,
+        };
+
     default:
       return state;
   }
