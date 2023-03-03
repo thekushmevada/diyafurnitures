@@ -49,7 +49,7 @@ const CartProvider = ({ children }) => {
   // get vs set
 
   useEffect(() => {
-    // dispatch({ type: "CART_TOTAL_ITEM" });
+    dispatch({ type: "CART_TOTAL_ITEM" });
     // dispatch({ type: "CART_TOTAL_PRICE" });
     localStorage.setItem("MyCart", JSON.stringify(state.cart));
   }, [state.cart]);

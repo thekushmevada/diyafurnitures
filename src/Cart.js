@@ -41,6 +41,8 @@ const Cart = () => {
             clear cart
           </Button>
         </div>
+
+        {/* Order Total Amount */}
       </div>
     </Wrapper>
   );
