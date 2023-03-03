@@ -28,7 +28,7 @@ const SingleProduct = () => {
     reviews,
     image,
   }=singleProduct;
-
+  console.log(alias + category )
   useEffect(() => {
     getSingleProduct(`${API}/${id}`);
   }, [])
