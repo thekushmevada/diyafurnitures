@@ -3,18 +3,18 @@ import reducer from "../reducer/cartReducer";
 
 const CartContext = createContext();
 
-const getLocalCartData = () => {
-  let localCartData = localStorage.getItem("MyCart");
-  if (localCartData === []) {
-    return [];
-  } else {
-    return JSON.parse(localCartData);
-  }
-};
+// const getLocalCartData = () => {
+//   let localCartData = localStorage.getItem("MyCart");
+//   if (localCartData === []) {
+//     return [];
+//   } else {
+//     return JSON.parse(localCartData);
+//   }
+// };
 
 const initialState = {
-  //cart: [],
-  cart: getLocalCartData(),
+  cart: [],
+  //cart: getLocalCartData(),
   total_item: "",
   total_amount: "",
   shipping_fee: 2000,
@@ -51,8 +51,8 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     // dispatch({ type: "CART_TOTAL_ITEM" });
     // dispatch({ type: "CART_TOTAL_PRICE" });
-    dispatch({type : "CART_ITEM_PRICE_TOTAL"})
-    localStorage.setItem("MyCart", JSON.stringify(state.cart));
+    dispatch({type : "CART_ITEM_PRICE_TOTAL"});
+   // localStorage.setItem("MyCart", JSON.stringify(state.cart));
   }, [state.cart]);
 
   return (
