@@ -13,9 +13,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <Auth0Provider
   //   domain="dev-y3zydxsanv3hgnwc.us.auth0.com"
-  //   clientId="oEI6eeXj1yBjmaCwEkOPJF2cDxxTyB78"
+  //   clientId="KCETkUbLYF2iRS51e7bMhS489yLrlRHM"
   //   authorizationParams={{
-  //     redirect_uri: window.location.origin,
+  //     redirect_uri: window.location.origin
   //   }}
   // >
     <AppProvider>
@@ -25,7 +25,7 @@ root.render(
         </CartProvider>
       </FilterContextProvider>
     </AppProvider>
-  // </Auth0Provider>
+  //  </Auth0Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
