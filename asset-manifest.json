@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/diyafurnitures/static/css/main.e6c13ad2.css",
+    "main.js": "/diyafurnitures/static/js/main.6de0eec0.js",
+    "static/js/787.34115356.chunk.js": "/diyafurnitures/static/js/787.34115356.chunk.js",
+    "index.html": "/diyafurnitures/index.html",
+    "main.e6c13ad2.css.map": "/diyafurnitures/static/css/main.e6c13ad2.css.map",
+    "main.6de0eec0.js.map": "/diyafurnitures/static/js/main.6de0eec0.js.map",
+    "787.34115356.chunk.js.map": "/diyafurnitures/static/js/787.34115356.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.6de0eec0.js"
+  ]
+}
