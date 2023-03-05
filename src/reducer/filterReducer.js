@@ -77,7 +77,7 @@ const filterReducer = (state, action) => {
           });
         }
   
-        if (category !== "all") {
+        if (category !== "all" && category) {
           tempFilterProduct = tempFilterProduct.filter(
             (curElem) => curElem.category === category
           );
