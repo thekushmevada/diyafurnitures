@@ -26,7 +26,7 @@ yarn-error.log*
 .netlify
 
 #firebase
-.firebaserc
-firebase.json
-hosting.YnVpbGQ.cache
-firebase-hosting-pull-request.yml
+#.firebaserc
+#firebase.json
+#hosting.YnVpbGQ.cache
+#firebase-hosting-pull-request.yml

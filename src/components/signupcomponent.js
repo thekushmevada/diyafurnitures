@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import app from "../firebaseConfig";
 import { Button } from "../styles/Button";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+
+const auth = getAuth(app);
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -9,34 +17,110 @@ export default class SignUp extends Component {
       fname: "",
       lname: "",
       email: "",
+      mobile: "",
       password: "",
+      verifyButton: false,
+      verifyOTP: false,
+      OTP: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSignInSubmit = this.onSignInSubmit.bind(this);
+    this.verifyCode = this.verifyCode.bind(this);
+  }
+
+  onCaptchVerify() {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          this.onSignInSubmit();
+        },
+      },
+      auth
+    );
+  }
+  onSignInSubmit() {
+    this.onCaptchVerify();
+    const phoneNumber = "+91" + this.state.mobile;
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        alert("OTP Sended");
+        this.setState({ verifyOTP: true });
+      })
+      .catch((error) => {
+        
+      });
+  }
+
+  verifyCode() {
+    window.confirmationResult
+      .confirm(this.state.OTP)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log(user);
+        alert("Verification Done");
+        this.setState({
+          verified:true,
+        })
+      })
+      .catch((error) => {
+        alert("Invalid OTP");
+        this.setState({
+          verified: false,
+          verifyOTP: false,
+        });
+      });
+  }
+
+  changeMobile(e) {
+    this.setState({ mobile: e.target.value }, function () {
+      if (this.state.mobile.length === 10) {
+        this.setState({
+          verifyButton: true,
+        });
+      }
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { fname, lname, email, password } = this.state;
-    // console.log(fname , lname , email , password);
-    fetch("https://productssapi.onrender.com/register", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        fname,
-        lname,
-        email,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "userRegister");
-      });
+    if (this.state.verified) {
+      const { fname, lname, email, mobile, password } = this.state;
+      // console.log(fname , lname , email , password);
+      fetch("https://productssapi.onrender.com/register", {
+        method: "POST",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          fname,
+          lname,
+          email,
+          mobile,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data, "userRegister");
+          if (data.status === "ok") {
+            alert("User Registered successful");
+            window.location.href = "./login";
+          }
+        });
+    } else {
+      alert("Please verify Mobile")
+    }
+    
   }
 
   render() {
@@ -45,7 +129,7 @@ export default class SignUp extends Component {
         <div className="container contact-form">
           <form onSubmit={this.handleSubmit}>
             <h2 className="common-heading">Sign Up</h2>
-
+            <div id="sign-in-button"></div>
             <div className="mb-3">
               {/* <label>First name</label> */}
               <input
@@ -57,7 +141,7 @@ export default class SignUp extends Component {
             </div>
 
             <br></br>
-              <br></br>
+            <br></br>
 
             <div className="mb-3">
               {/* <label>Last name</label> */}
@@ -70,7 +154,7 @@ export default class SignUp extends Component {
             </div>
 
             <br></br>
-              <br></br>
+            <br></br>
 
             <div className="mb-3">
               {/* <label>Email address</label> */}
@@ -83,7 +167,53 @@ export default class SignUp extends Component {
             </div>
 
             <br></br>
-              <br></br>
+            <br></br>
+
+            <div className="mb-3">
+              {/* <label>Email address</label> */}
+              <input
+                type="mobile"
+                className="form-control"
+                placeholder="Enter Mobile"
+                onChange={(e) => this.changeMobile(e)}
+              />
+              {this.state.verifyButton ? (
+                <input
+                  type="button"
+                  value={this.state.verified ? "verified" : "verify"}
+                  style={{
+                    backgroundColor: "0163d2",
+                  }}
+                  onClick={this.onSignInSubmit}
+                />
+              ) : null}
+            </div>
+
+            <br></br>
+            <br></br>
+
+            <div className="mb-3">
+              {/* <label>Email address</label> */}
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter OTP"
+                onChange={(e) => this.setState({ OTP: e.target.value })}
+              />
+              {this.state.verifyOTP ? (
+                <input
+                  type="button"
+                  value={this.state.verified ? "verified" : "verify"}
+                  style={{
+                    backgroundColor: "0163d2",
+                  }}
+                  onClick={this.verifyCode}
+                />
+              ) : null}
+            </div>
+
+            <br></br>
+            <br></br>
 
             <div className="mb-3">
               {/* <label>Password</label> */}
@@ -96,7 +226,7 @@ export default class SignUp extends Component {
             </div>
 
             <br></br>
-              <br></br>
+            <br></br>
 
             <div className="d-grid">
               <Button type="submit" className="btn btn-primary">
@@ -105,7 +235,7 @@ export default class SignUp extends Component {
             </div>
 
             <br></br>
-              
+
             <p className="forgot-password text-right">
               Already registered <a href="./login">sign in?</a>
             </p>
