@@ -5,7 +5,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cart_context";
 // import { useAuth0 } from "@auth0/auth0-react";
-// import { Button } from "../styles/Button";
+import { Button } from "../styles/Button";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
@@ -198,7 +198,30 @@ const Nav = () => {
               <Button onClick={() => loginWithRedirect()}>Log In</Button>
             </li>
           )} */}
-          
+
+          {window.localStorage.getItem("loggedIn", true) ? (
+            <li>
+              <Button onClick={() => {
+                window.localStorage.clear();
+                window.location.href = "./";
+                alert("Logged out succesfully");
+              }} >Log Out</Button>
+            </li>
+          ) : (
+            <li>
+              <Button
+                onClick={() => {
+                  window.location.href = "./login";
+                }}
+              >
+                Log In
+              </Button>
+            </li>
+          )}
+
+          {/* <Button onClick={() => {
+              window.location.href="./login"
+             }}>Log In</Button> */}
 
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">

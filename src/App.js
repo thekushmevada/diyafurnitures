@@ -40,8 +40,10 @@ const App = () => {
       tab: "998px",
     },
   };
+  const isLoggedIn = window.localStorage.getItem("loggedIn");
 
   return (
+
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
@@ -53,7 +55,13 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/singleproduct/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={isLoggedIn === "true" ? <UserDetails/> : <Login/>} />
+          {/* PENDING IDEA */}
+          {/* {isLoggedIn === "true" ? (
+            <Route path="/login" element={<Login />} />
+          ) : (
+            <Route path="/userDetails" element={<UserDetails />} />
+          )} */}
           <Route path="/register" element={<SignUp/>} />
           <Route path="/userDetails" element={<UserDetails/>} />
           <Route path="*" element={<Error />} />

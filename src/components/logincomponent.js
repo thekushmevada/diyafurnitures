@@ -25,13 +25,16 @@ export default class Login extends Component {
       body: JSON.stringify({
         email , password
       }),
-    }).then((res) => res.json())
+    })
+     .then((res) => res.json())
     .then((data) => {
-      console.log(data, "userRegister");
-      if(data.status === "ok") {
-        alert("login successfull");
-      window.localStorage.setItem("token" , data.data)   ;
-      window.location.href="./userDetails"
+      //console.log(data, "userRegister");
+      if (data.status === "ok") {
+        alert("login successful");
+        window.localStorage.setItem("token", data.data);
+        window.localStorage.setItem("loggedIn", true);
+
+        window.location.href = "./userDetails";
       }
     })
   }
