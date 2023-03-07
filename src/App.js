@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import Login from "./components/logincomponent";
 import SignUp from "./components/signupcomponent";
 import UserDetails from "./components/userDetails";
+import Reset from "./components/reset";
 
 const App = () => {
   const theme = {
@@ -64,6 +65,7 @@ const App = () => {
           )} */}
           <Route path="/register" element={<SignUp/>} />
           <Route path="/userDetails" element={<UserDetails/>} />
+          <Route path="/reset" element={<Reset/>} />
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer/>
