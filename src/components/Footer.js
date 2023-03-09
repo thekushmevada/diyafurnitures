@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaYoutube ,FaGoogle } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -56,11 +56,31 @@ const Footer = () => {
                     <FaYoutube className="icons" />
                   </a>
                 </div>
+                <div>
+                  <a href="https://g.page/r/CQ3946YR30zqEB0/review">
+                    <FaGoogle className="icons" />
+                  </a>
+                </div>
               </div>
             </div>
+            {/* <div>
+              <h3>Review us on google</h3>
+              <div className="footer-social--icons">
+                <div>
+                  <a href="https://g.page/r/CQ3946YR30zqEB0/review">
+                    <FaGoogle className="icons" />
+                  </a>
+                </div>
+              </div>
+            </div> */}
             <div className="footer-contact">
-              <a href="tel:+918200565810"><h3>Call</h3></a> <h3> or WhatsApp Us</h3>
-              <a href="https://wa.link/dq11nn"><h3>+91 8200565810</h3></a>             
+              <a href="tel:+918200565810">
+                <h3>Call</h3>
+              </a>{" "}
+              <h3> or WhatsApp Us</h3>
+              <a href="https://wa.link/dq11nn">
+                <h3>+91 8200565810</h3>
+              </a>
             </div>
           </div>
 

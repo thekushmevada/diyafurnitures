@@ -29,6 +29,7 @@ export default class Reset extends Component {
       .then((data) => {
         console.log(data, "Hello");
         alert(data.status);
+        alert("Mail sent Succesfully");
       });
   }
 
