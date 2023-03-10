@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import AdminHome from "./AdminHome";
+import UserHome from "./UserHome";
 
 export default class UserDetails extends Component {
   constructor(props) {
@@ -44,11 +45,7 @@ export default class UserDetails extends Component {
           {this.state.userData.userType === "admin" ? (
             <AdminHome />
           ) : (
-            <div>
-              <h3>Welcome, {this.state.userData.fname}</h3>
-              <h3>Logged in as {this.state.userData.userType}</h3>
-              <h3>Redicting to Home Page</h3>
-            </div>
+            <UserHome />
           )}
         </div>
       </Wrapper>
