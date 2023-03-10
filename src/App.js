@@ -57,12 +57,6 @@ const App = () => {
           <Route path="/singleproduct/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={isLoggedIn === "true" ? <UserDetails/> : <Login/>} />
-          {/* PENDING IDEA */}
-          {/* {isLoggedIn === "true" ? (
-            <Route path="/login" element={<Login />} />
-          ) : (
-            <Route path="/userDetails" element={<UserDetails />} />
-          )} */}
           <Route path="/register" element={<SignUp/>} />
           <Route path="/userDetails" element={<UserDetails/>} />
           <Route path="/reset" element={<Reset/>} />

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import app from "../firebaseConfig";
 import { Button } from "../styles/Button";
+
 import {
   getAuth,
   RecaptchaVerifier,
@@ -22,6 +23,8 @@ export default class SignUp extends Component {
       verifyButton: false,
       verifyOTP: false,
       OTP: "",
+      userType: "",
+      secretKey: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onSignInSubmit = this.onSignInSubmit.bind(this);
@@ -52,9 +55,7 @@ export default class SignUp extends Component {
         alert("OTP Sended");
         this.setState({ verifyOTP: true });
       })
-      .catch((error) => {
-        
-      });
+      .catch((error) => {});
   }
 
   verifyCode() {
@@ -66,8 +67,8 @@ export default class SignUp extends Component {
         console.log(user);
         alert("Verification Done");
         this.setState({
-          verified:true,
-        })
+          verified: true,
+        });
       })
       .catch((error) => {
         alert("Invalid OTP");
@@ -89,38 +90,45 @@ export default class SignUp extends Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.verified) {
-      const { fname, lname, email, mobile, password } = this.state;
-      // console.log(fname , lname , email , password);
-      fetch("https://productssapi.onrender.com/register", {
-        method: "POST",
-        crossDomain: true,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          fname,
-          lname,
-          email,
-          mobile,
-          password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          //console.log(data, "userRegister");
-          if (data.status === "ok") {
-            alert("User Registered successful");
-            window.location.href = "./login";
-          }
-        });
+    if (this.state.userType === "admin" && this.state.secretKey !== "Mevada") {
+      e.preventDefault();
+      alert("Invalid Admin");
     } else {
-      alert("Please verify Mobile")
+      e.preventDefault();
+      if (this.state.verified) {
+        const { fname, lname, email, mobile, password, userType, secretKey } =
+          this.state;
+        console.log(fname, lname, email, password, userType, secretKey);
+        fetch("https://productssapi.onrender.com/register", {
+          method: "POST",
+          crossDomain: true,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            fname,
+            lname,
+            email,
+            mobile,
+            password,
+            userType,
+            secretKey,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            //console.log(data, "userRegister");
+            if (data.status === "ok") {
+              alert("User Registered successful");
+              window.location.href = "./login";
+            }
+          });
+      } else {
+        alert("Please verify Mobile");
+      }
     }
-    
   }
 
   render() {
@@ -130,6 +138,38 @@ export default class SignUp extends Component {
           <form onSubmit={this.handleSubmit}>
             <h2 className="common-heading">Sign Up</h2>
             <div id="sign-in-button"></div>
+            <div className="mb-3">
+              <h3>Register as</h3>
+              <input
+                type="radio"
+                name="userType"
+                value="user"
+                onChange={(e) => this.setState({ userType: e.target.value })}
+              />
+              <h3>User</h3>
+              <input
+                type="radio"
+                name="userType"
+                value="admin"
+                onChange={(e) => this.setState({ userType: e.target.value })}
+              />
+              <h3>Admin</h3>
+            </div>
+
+            {this.state.userType === "admin" ? (
+              <div>
+                <br></br>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Secret Key"
+                  onChange={(e) => this.setState({ secretKey: e.target.value })}
+                />
+              </div>
+            ) : null}
+
+            <br></br>
+            <br></br>
             <div className="mb-3">
               {/* <label>First name</label> */}
               <input

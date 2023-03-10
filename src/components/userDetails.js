@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+import AdminHome from "./AdminHome";
 
 export default class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: "",
+      userData: "",   
     };
   }
 
@@ -23,8 +25,11 @@ export default class UserDetails extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data, "userData");
+        
         this.setState({ userData: data.data });
+        if (data.data.userType === "user") {
+          window.location.href = "./";
+        }
         if (data.data === "token expired") {
           alert("Token expired, Please login again!");
           window.localStorage.clear();
@@ -34,10 +39,41 @@ export default class UserDetails extends Component {
   }
   render() {
     return (
-      <div>
-        Name<h1>{this.state.userData.fname}</h1>
-        Email<h1>{this.state.userData.email}</h1>
-      </div>
+      <Wrapper>
+        <div className="container">
+          {this.state.userData.userType === "admin" ? (
+            <AdminHome />
+          ) : (
+            <div>
+              <h3>Welcome, {this.state.userData.fname}</h3>
+              <h3>Logged in as {this.state.userData.userType}</h3>
+              <h3>Redicting to Home Page</h3>
+            </div>
+          )}
+        </div>
+      </Wrapper>
     );
   }
 }
+
+const Wrapper = styled.section`
+  .container {
+    padding: 9rem 0;
+    text-align: center;
+    h2 {
+      font-size: 10rem;
+    }
+    h3 {
+      font-size: 4.2rem;
+    }
+    h4 {
+      font-size: 2.3rem;
+    }
+    h5 {
+      font-size: 1.9rem;
+    }
+    p {
+      margin: 2rem 0;
+    }
+  }
+`;

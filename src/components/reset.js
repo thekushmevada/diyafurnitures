@@ -27,10 +27,15 @@ export default class Reset extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "Hello");
-        alert(data.status);
-        alert("Mail sent Succesfully");
-      });
+        console.log(data);
+        alert(data.status );
+        
+        if(data.status !== "user not exists!") {
+          console.log(data.status );
+          alert("Mail sent Succesfully");
+        }
+      })
+     
   }
 
   render() {

@@ -35,8 +35,10 @@ export default class Login extends Component {
           alert("login successful");
           window.localStorage.setItem("token", data.data);
           window.localStorage.setItem("loggedIn", true);
-
-          window.location.href = "./";
+          // console.log(data.userType);
+          window.location.href = "./userDetails"
+          
+          
         }else {
           alert(" wrong email or password")
         }
