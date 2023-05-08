@@ -1,12 +1,17 @@
 import { useProductContext } from "../context/productcontext";
 import styled from "styled-components";
 import Product from "./Product";
+import { Bars } from 'react-loading-icons'
 
 const FeatureProduct = () => {
   const { isLoading, featureProducts } = useProductContext();
 
   if (isLoading) {
-    return <div> ......Loading </div>;
+    return <Wrapper className="section">
+      <div className="logo">
+        <Bars/>
+      </div>
+    </Wrapper>;
   }
 
   return (
@@ -27,6 +32,11 @@ const FeatureProduct = () => {
 const Wrapper = styled.section`
   padding: 9rem 0;
   background-color: ${({ theme }) => theme.colors.bg};
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .container {
     max-width: 120rem;
   }

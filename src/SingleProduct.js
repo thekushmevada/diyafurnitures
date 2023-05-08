@@ -10,105 +10,117 @@ import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
+import { Bars } from "react-loading-icons";
 
 const API = "https://productssapi.onrender.com/products";
 const SingleProduct = () => {
-  const {getSingleProduct, isSingleLoading, singleProduct} = useProductContext();
-  const {id} = useParams();
+  const { getSingleProduct, isSingleLoading, singleProduct } =
+    useProductContext();
+  const { id } = useParams();
 
-  const{
-    _id: alias, 
+  const {
+    _id: alias,
     name,
     company,
     price,
     description,
-    category, 
+    category,
     stock,
     stars,
     reviews,
     image,
-  }=singleProduct;
-  console.log( alias + category )
-  
+  } = singleProduct;
+  console.log(alias + category);
+
   useEffect(() => {
     getSingleProduct(`${API}/${id}`);
-  }, [])
+  }, []);
 
-  if(isSingleLoading) {
-    return <div className="page_loading">Loading...</div>
+  if (isSingleLoading) {
+    return <Wrapper> 
+    <div className="logo">
+          <Bars stroke="#98ff98" strokeOpacity={.125}/>
+        </div>
+        </Wrapper>
+    ;
   }
 
   return (
     <Wrapper>
-    <PageNavigation title={name} />
-    <Container className="container">
-      <div className="grid grid-two-column">
-        {/* product Images  */}
-        <div className="product_images">
-          <MyImage imgs={image} />
-        </div>
-
-        {/* product dAta  */}
-        <div className="product-data">
-          <h2>{name}</h2>
-          <Star stars={stars} review={reviews} />
-          
-          <p className="product-data-price">
-            MRP:
-            <del>
-              <FormatPrice price={price + 25000} />
-            </del>
-          </p>
-          <p className="product-data-price product-data-real-price">
-            Deal of the Day: <FormatPrice price={price} />
-          </p>
-          <p>{description}</p>
-          <div className="product-data-warranty">
-            <div className="product-warranty-data">
-              <TbTruckDelivery className="warranty-icon" />
-              <p>Free Delivery</p>
-            </div>
-
-            <div className="product-warranty-data">
-              <TbReplace className="warranty-icon" />
-              <p>30 Days Replacement</p>
-            </div>
-
-            <div className="product-warranty-data">
-              <TbTruckDelivery className="warranty-icon" />
-              <p>Transport Delivered </p>
-            </div>
-
-            <div className="product-warranty-data">
-              <MdSecurity className="warranty-icon" />
-              <p>2 Year Warranty </p>
-            </div>
+      <PageNavigation title={name} />
+      <Container className="container">
+        <div className="grid grid-two-column">
+          {/* product Images  */}
+          <div className="product_images">
+            <MyImage imgs={image} />
           </div>
 
-          <div className="product-data-info">
-            <p>
-              Available:
-              <span> {stock > 0 ? "In Stock" : "Available"}</span>
+          {/* product dAta  */}
+          <div className="product-data">
+            <h2>{name}</h2>
+            <Star stars={stars} review={reviews} />
+
+            <p className="product-data-price">
+              MRP:
+              <del>
+                <FormatPrice price={price + 25000} />
+              </del>
             </p>
-            <p>
-              ID : <span> {id} </span>
+            <p className="product-data-price product-data-real-price">
+              Deal of the Day: <FormatPrice price={price} />
             </p>
-            <p>
-              Brand :<span> {company} </span>
-            </p>
-          </div>
-          <hr />
+            <p>{description}</p>
+            <div className="product-data-warranty">
+              <div className="product-warranty-data">
+                <TbTruckDelivery className="warranty-icon" />
+                <p>Free Delivery</p>
+              </div>
+
+              <div className="product-warranty-data">
+                <TbReplace className="warranty-icon" />
+                <p>30 Days Replacement</p>
+              </div>
+
+              <div className="product-warranty-data">
+                <TbTruckDelivery className="warranty-icon" />
+                <p>Transport Delivered </p>
+              </div>
+
+              <div className="product-warranty-data">
+                <MdSecurity className="warranty-icon" />
+                <p>2 Year Warranty </p>
+              </div>
+            </div>
+
+            <div className="product-data-info">
+              <p>
+                Available:
+                <span> {stock > 0 ? "In Stock" : "Available"}</span>
+              </p>
+              <p>
+                ID : <span> {id} </span>
+              </p>
+              <p>
+                Brand :<span> {company} </span>
+              </p>
+            </div>
+            <hr />
             {stock > 0 && <AddToCart product={singleProduct} />}
-          
+          </div>
         </div>
-      </div>
-    </Container>
-  </Wrapper>
+      </Container>
+    </Wrapper>
   );
-}
-
+};
 
 const Wrapper = styled.section`
+  .logo {
+    background-color: ${({ theme }) => theme.colors.bg};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
   .container {
     padding: 9rem 0;
   }
