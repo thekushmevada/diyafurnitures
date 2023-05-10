@@ -9,7 +9,7 @@ const FeatureProduct = () => {
   if (isLoading) {
     return <Wrapper className="section">
       <div className="logo">
-        <Bars/>
+        <Bars stroke="#98ff98" strokeOpacity={.125} />
       </div>
     </Wrapper>;
   }

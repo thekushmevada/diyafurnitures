@@ -231,6 +231,7 @@ export default class SignUp extends Component {
 
             <br></br>
             <br></br>
+            
 
             <div className="mb-3">
               {/* <label>Email address</label> */}
