@@ -20,6 +20,7 @@ export default function AdminHome() {
   ];
 
   const getSingleQuery = (_id) => {
+    
     fetch("https://productssapi.onrender.com/getSingleQuery", {
       method: "POST",
       crossDomain: true,
@@ -40,11 +41,12 @@ export default function AdminHome() {
           // console.log(data.status );
           alert("Mail sent Succesfully");
           // deleteUser();
+          // xyz = data.status;
         }
       });
   };
 
-  const deleteUser = (id, username) => {
+  const deleteUser = (_id) => {
     if (window.confirm(`Are you sure want to delete Query?`)) {
       fetch("https://productssapi.onrender.com/deleteQuery", {
         method: "POST",
@@ -55,7 +57,7 @@ export default function AdminHome() {
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
-          userID: id,
+          userID: _id,
         }),
       })
         .then((res) => res.json())
