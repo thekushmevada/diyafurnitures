@@ -100,6 +100,10 @@ export default function AdminHome() {
             );
           })}
         </table>
+        <br/>
+        <br/>
+        <br/>
+        <input type="submit" value="queries" onClick={() => {window.location.href = "./login";}}/>
       </div>
     </div>
   );

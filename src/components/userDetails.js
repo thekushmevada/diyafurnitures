@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import AdminHome from "./AdminHome";
+import QueryList from "./QueryList"
 import UserHome from "./UserHome";
 
 export default class UserDetails extends Component {
@@ -43,7 +44,8 @@ export default class UserDetails extends Component {
       <Wrapper>
         <div className="container">
           {this.state.userData.userType === "admin" ? (
-            <AdminHome />
+            // <AdminHome />
+            <QueryList />
           ) : (
             <UserHome />
           )}
