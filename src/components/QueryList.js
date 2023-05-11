@@ -72,7 +72,6 @@ export default function AdminHome() {
   return (
     <div>
       <div>
-        <h3>Welcome, Admin!</h3>
         <h4>Here are some queries for you!</h4>
         <br></br>
         <br></br>
@@ -91,7 +90,7 @@ export default function AdminHome() {
               <h4>Mail</h4>
             </th>
             <th>
-              <h4>Delete Query</h4>
+              <h4>DeleteQuery</h4>
             </th>
             <th>
               <h4>Responsed</h4>
@@ -132,16 +131,6 @@ export default function AdminHome() {
             );
           })}
         </table>
-        <br />
-        <br />
-        <br />
-        <input
-          type="submit"
-          value="View Admins"
-          onClick={() => {
-            window.location.href = "./login";
-          }}
-        />
       </div>
     </div>
   );

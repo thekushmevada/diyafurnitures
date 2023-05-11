@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import AdminHome from "./AdminHome";
-import QueryList from "./QueryList"
+import QueryList from "./QueryList";
 import UserHome from "./UserHome";
 
 export default class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: "",   
+      userData: "",
+      pageType: "",
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +29,6 @@ export default class UserDetails extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        
         this.setState({ userData: data.data });
         if (data.data.userType === "user") {
           window.location.href = "./";
@@ -39,13 +40,52 @@ export default class UserDetails extends Component {
         }
       });
   }
+  handleSubmit(e) {
+    e.preventDefault();
+    const {pageType} = this.state;
+    console.log(pageType);
+
+  }
   render() {
     return (
       <Wrapper>
         <div className="container">
           {this.state.userData.userType === "admin" ? (
             // <AdminHome />
-            <QueryList />
+            // <QueryList />
+            // <h3>Hello</h3>
+            <div>
+              <h3>Welcome, Admin!</h3>
+              <div>
+                <form onSubmit={this.handleSubmit}>
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="admins"
+                    onChange={(e) =>
+                      this.setState({ pageType: e.target.value })
+                    }
+                  />
+                  <h4>Admins</h4>
+                  <input
+                    type="radio"
+                    name="userType"
+                    value="queries"
+                    onChange={(e) =>
+                      this.setState({ pageType: e.target.value })
+                    }
+                  />
+                  <h4>Queries</h4>
+                </form>
+              </div>
+              <div>
+                {this.state.pageType === "admins" ? (
+                  <AdminHome />
+                ) : (
+                  <QueryList />
+                )}
+              </div>
+            </div>
           ) : (
             <UserHome />
           )}

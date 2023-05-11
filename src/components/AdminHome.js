@@ -46,7 +46,6 @@ export default function AdminHome() {
   return (
     <div>
       <div>
-        <h3>Welcome Admin</h3>
         <br></br>
         <br></br>
         <table style={{ width: "100%" }}>
@@ -100,10 +99,6 @@ export default function AdminHome() {
             );
           })}
         </table>
-        <br/>
-        <br/>
-        <br/>
-        <input type="submit" value="queries" onClick={() => {window.location.href = "./login";}}/>
       </div>
     </div>
   );
