@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "diya-furnitures"
-  }
+    "default": "diya-furnitures",
+    "hosting": "diya-furnitures"
+  },
+  "targets": {},
+  "etags": {}
 }
