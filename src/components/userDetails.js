@@ -66,7 +66,7 @@ export default class UserDetails extends Component {
                       this.setState({ pageType: e.target.value })
                     }
                   />
-                  <h4>Admins</h4>
+                  <h4>Users</h4>
                   <input
                     type="radio"
                     name="userType"

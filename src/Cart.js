@@ -5,11 +5,10 @@ import { NavLink } from "react-router-dom";
 import { Button } from "./styles/Button";
 import FormatPrice from "./Helpers/FormatPrice";
 
-
 const Cart = () => {
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
-  if(cart.length === 0){
-    return(
+  if (cart.length === 0) {
+    return (
       <EmptyDiv>
         <h3>No Items added in cart</h3>
       </EmptyDiv>
@@ -29,6 +28,8 @@ const Cart = () => {
 
         <div className="cart-item">
           {cart.map((curElem) => {
+            // console.log({cart});
+            console.log(curElem);
             return <CartItem key={curElem._id} {...curElem} />;
           })}
         </div>
@@ -38,6 +39,10 @@ const Cart = () => {
         <div className="cart-two-button">
           <NavLink to="/products">
             <Button> continue Shopping </Button>
+          </NavLink>
+          <NavLink to="/cart">
+            <Button className="btn" >Buy products</Button>
+            {/* <Button className="btn" onClick={() => addToCart(_id, color, amount, product)}>Buy products</Button> */}
           </NavLink>
           <Button className="btn btn-clear" onClick={clearCart}>
             clear cart
