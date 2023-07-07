@@ -86,7 +86,7 @@ const Footer = () => {
 
           <div className="footer-bottom--section">
             <hr />
-            <div className="container grid grid-two-column ">
+            <div className="container grid grid-three-column ">
               <p>
                 @{new Date().getFullYear()} Diya Furnitures. All Rights Reserved
               </p>
@@ -94,6 +94,9 @@ const Footer = () => {
                 <p>PRIVACY POLICY</p>
                 <p>TERMS & CONDITIONS</p>
               </div>
+            <div>
+              <p>Build With &#9825; by <a href="https://kushmevada.co/" >Kush Mevada</a></p>
+            </div>
             </div>
           </div>
         </footer>
@@ -128,7 +131,16 @@ const Wrapper = styled.section`
     }
     p {
       color: ${({ theme }) => theme.colors.white};
+
+      a{
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.white};
+      }
+       a:hover{
+        color: ${({ theme }) => theme.colors.helper};
+       }
     }
+    
     .footer-social--icons {
       display: flex;
       gap: 2rem;
