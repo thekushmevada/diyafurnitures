@@ -88,7 +88,7 @@ const Footer = () => {
             <hr />
             <div className="container grid grid-three-column ">
               <p>
-                @{new Date().getFullYear()} Diya Furnitures. All Rights Reserved
+              {new Date().getFullYear()} &copy; Diya Furnitures. All Rights Reserved
               </p>
               <div>
                 <p>PRIVACY POLICY</p>
