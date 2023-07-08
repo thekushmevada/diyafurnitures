@@ -1,72 +1,64 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
+import axios from "axios";
 
-export default class Reset extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleSubmit(e) {
+const Reset = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { email } = this.state;
-    fetch("https://productssapi.onrender.com/forgotpassword", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
+
+    axios
+      .post("https://productssapi.onrender.com/forgotpassword", {
         email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+      })
+      .then((res) => {
+        console.log("Hello");
+        const data = res.data;
         console.log(data);
-        alert(data.status );
-        
-        if(data.status !== "user not exists!") {
-          console.log(data.status );
-          alert("Mail sent Succesfully");
+        alert(data.status);
+
+        if (data.data.status !== "user not exists!") {
+          console.log(data.status);
+          alert("Mail sent Successfully");
         }
       })
-     
-  }
+      .catch((error) => {
+        console.error(error);
+        // Handle error if needed
+      });
+  };
 
-  render() {
-    return (
-      <Wrapper>
-        <div className="container contact-form">
-          <form onSubmit={this.handleSubmit} className="contact-inputs">
-            <h2 className="common-heading">Reset Password</h2>
+  return (
+    <Wrapper>
+      <div className="container contact-form">
+        <form onSubmit={handleSubmit} className="contact-inputs">
+          <h2 className="common-heading">Reset Password</h2>
 
-            <div className="mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter email"
-                onChange={(e) => this.setState({ email: e.target.value })}
-              />
-            </div>
+          <div className="mb-3">
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-            <br></br>
-            <br></br>
+          <br />
+          <br />
 
-            <div className="d-grid">
-              <Button type="submit">Submit</Button>
-            </div>
-            <br></br>
-          </form>
-        </div>
-      </Wrapper>
-    );
-  }
-}
+          <div className="d-grid">
+            <Button type="submit">Submit</Button>
+          </div>
+          <br />
+        </form>
+      </div>
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.section`
   padding: 9rem 0 5rem 0;
   text-align: center;
@@ -97,4 +89,6 @@ const Wrapper = styled.section`
       }
     }
   }
-`;
+};`
+
+export default Reset;
