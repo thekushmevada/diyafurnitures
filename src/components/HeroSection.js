@@ -46,6 +46,7 @@ const Wrapper = styled.section`
   .hero-section-data {
     p {
       margin: 2rem 0;
+      text-align: justify;
     }
     h1 {
       text-transform: capitalize;

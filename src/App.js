@@ -11,10 +11,10 @@ import Header from "./components/Header";
 import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Footer from "./components/Footer";
-import Login from "./components/logincomponent";
-import SignUp from "./components/signupcomponent";
-import UserDetails from "./components/userDetails";
+import {Login} from "./components/logincomponent";
+import {UserDetails} from "./components/userDetails";
 import Reset from "./components/reset";
+import { SignUp } from "./components/signupcomponent";
 
 const App = () => {
   const theme = {
@@ -58,7 +58,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={isLoggedIn === "true" ? <UserDetails/> : <Login/>} />
           <Route path="/register" element={<SignUp/>} />
-          <Route path="/userDetails" element={<UserDetails/>} />
+          <Route path="/userdetails" element={<UserDetails/>} />
           <Route path="/reset" element={<Reset/>} />
           <Route path="*" element={<Error />} />
         </Routes>

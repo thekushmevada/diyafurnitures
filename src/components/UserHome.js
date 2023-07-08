@@ -1,26 +1,21 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function UserHome() {
   const [data, setData] = useState("");
 
   useEffect(() => {
-    fetch("https://productssapi.onrender.com/userData", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        token: window.localStorage.getItem("token"),
-      }),
+    axios.post("https://productssapi.onrender.com/userData", {
+      token: window.localStorage.getItem("token"),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data.data);
-        setData(data.data);
-      });
+    .then((res) => {
+      console.log("Hello");
+      console.log(res);
+      setData(res.data.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
 
   return (

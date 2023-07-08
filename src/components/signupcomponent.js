@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import app from "../firebaseConfig";
 import { Button } from "../styles/Button";
@@ -8,44 +8,40 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
+import axios from "axios";
 
 const auth = getAuth(app);
 
-export default class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fname: "",
-      lname: "",
-      email: "",
-      mobile: "",
-      password: "",
-      verifyButton: false,
-      verifyOTP: false,
-      OTP: "",
-      userType: "",
-      secretKey: "",
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onSignInSubmit = this.onSignInSubmit.bind(this);
-    this.verifyCode = this.verifyCode.bind(this);
-  }
+export const SignUp = () => {
+  const [state, setState] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    mobile: "",
+    password: "",
+    verifyButton: false,
+    verifyOTP: false,
+    OTP: "",
+    userType: "",
+    secretKey: "",
+  });
 
-  onCaptchVerify() {
+  function onCaptchVerify() {
     window.recaptchaVerifier = new RecaptchaVerifier(
       "sign-in-button",
       {
         size: "invisible",
         callback: (response) => {
-          this.onSignInSubmit();
+          onSignInSubmit();
         },
       },
       auth
     );
   }
-  onSignInSubmit() {
-    this.onCaptchVerify();
-    const phoneNumber = "+91" + this.state.mobile;
+
+  function onSignInSubmit() {
+    onCaptchVerify();
+    const phoneNumber = "+91" + state.mobile;
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
@@ -53,74 +49,108 @@ export default class SignUp extends Component {
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         alert("OTP Sended");
-        this.setState({ verifyOTP: true });
+        setState({ ...state, verifyOTP: true });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  verifyCode() {
+  function verifyCode() {
     window.confirmationResult
-      .confirm(this.state.OTP)
+      .confirm(state.OTP)
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
         console.log(user);
         alert("Verification Done");
-        this.setState({
+        setState({
+          ...state,
           verified: true,
         });
       })
       .catch((error) => {
+        console.log(error);
         alert("Invalid OTP");
-        this.setState({
+        setState({
+          ...state,
           verified: false,
           verifyOTP: false,
         });
       });
   }
 
-  changeMobile(e) {
-    this.setState({ mobile: e.target.value }, function () {
-      if (this.state.mobile.length === 10) {
-        this.setState({
-          verifyButton: true,
-        });
-      }
-    });
-  }
+  const changeMobile = (e) => {
+    setState((prevState) => ({
+      ...prevState,
+      mobile: e.target.value,
+    }));
+  };
+  useEffect(() => {
+    // console.log(state.mobile);
 
-  handleSubmit(e) {
-    if (this.state.userType === "admin" && this.state.secretKey !== "Mevada") {
+    if (state.mobile.length === 10) {
+      setState((prevState) => ({
+        ...prevState,
+        verifyButton: true,
+      }));
+    }
+  }, [state.mobile]);
+  // function changeMobile(e) {
+  //   setState({ ...state, mobile: e.target.value }, function () {
+  //     console.log(state.mobile);
+  //     if (state.mobile.length === 10) {
+  //       setState({
+  //         ...state,
+  //         verifyButton: true,
+  //       });
+  //     }
+  //   });
+  // }
+
+  
+
+  const handleSubmit = (e) => {
+    if (state.userType === "admin" && state.secretKey !== "Mevada") {
       e.preventDefault();
       alert("Invalid Admin");
     } else {
       e.preventDefault();
-      if (this.state.verified) {
-        const { fname, lname, email, mobile, password, userType, secretKey } =
-          this.state;
-        console.log(fname, lname, email, password, userType, secretKey);
-        fetch("https://productssapi.onrender.com/register", {
-          method: "POST",
-          crossDomain: true,
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify({
-            fname,
-            lname,
-            email,
-            mobile,
-            password,
-            userType,
-            secretKey,
-          }),
-        })
-          .then((res) => res.json())
+      if (state.verified) {
+        // const { fname, lname, email, mobile, password, userType, secretKey } =
+        //   state;
+        // console.log(fname, lname, email, password, userType, secretKey);
+        // fetch("https://productssapi.onrender.com/register", {
+        //   method: "POST",
+        //   crossDomain: true,
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Accept: "application/json",
+        //     "Access-Control-Allow-Origin": "*",
+        //   },
+        //   body: JSON.stringify({
+        //     fname,
+        //     lname,
+        //     email,
+        //     mobile,
+        //     password,
+        //     userType,
+        //     secretKey,
+        //   }),
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     //console.log(data, "userRegister");
+        //     if (data.status === "ok") {
+        //       alert("User Registered successful");
+        //       window.location.href = "./login";
+        //     }
+        //   });
+
+        axios
+          .post("https://productssapi.onrender.com/register", state)
           .then((data) => {
-            //console.log(data, "userRegister");
-            if (data.status === "ok") {
+            if (data.data.status === "ok") {
               alert("User Registered successful");
               window.location.href = "./login";
             }
@@ -129,163 +159,165 @@ export default class SignUp extends Component {
         alert("Please verify Mobile");
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <Wrapper>
-        <div className="container contact-form">
-          <form onSubmit={this.handleSubmit}>
-            <h2 className="common-heading">Sign Up</h2>
-            <div id="sign-in-button"></div>
-            <div className="mb-3">
-              <h3>Register as</h3>
+  return (
+    <Wrapper>
+      <div className="container contact-form">
+        <form onSubmit={handleSubmit}>
+          <h2 className="common-heading">Sign Up</h2>
+          <div id="sign-in-button"></div>
+          <div className="mb-3">
+            <h3>Register as</h3>
+            <input
+              type="radio"
+              name="userType"
+              value="user"
+              onChange={(e) => setState({ ...state, userType: e.target.value })}
+            />
+            <h3>User</h3>
+            <input
+              type="radio"
+              name="userType"
+              value="admin"
+              onChange={(e) => setState({ ...state, userType: e.target.value })}
+            />
+            <h3>Admin</h3>
+          </div>
+
+          {state.userType === "admin" ? (
+            <div>
+              <br></br>
               <input
-                type="radio"
-                name="userType"
-                value="user"
-                onChange={(e) => this.setState({ userType: e.target.value })}
+                type="text"
+                className="form-control"
+                placeholder="Secret Key"
+                onChange={(e) =>
+                  setState({ ...state, secretKey: e.target.value })
+                }
               />
-              <h3>User</h3>
-              <input
-                type="radio"
-                name="userType"
-                value="admin"
-                onChange={(e) => this.setState({ userType: e.target.value })}
-              />
-              <h3>Admin</h3>
             </div>
+          ) : null}
 
-            {this.state.userType === "admin" ? (
-              <div>
-                <br></br>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Secret Key"
-                  onChange={(e) => this.setState({ secretKey: e.target.value })}
-                />
-              </div>
+          <br></br>
+          <br></br>
+          <div className="mb-3">
+            {/* <label>First name</label> */}
+            <input
+              type="text"
+              className="form-control"
+              placeholder="First name"
+              onChange={(e) => setState({ ...state, fname: e.target.value })}
+            />
+          </div>
+
+          <br></br>
+          <br></br>
+
+          <div className="mb-3">
+            {/* <label>Last name</label> */}
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Last name"
+              onChange={(e) => setState({ ...state, lname: e.target.value })}
+            />
+          </div>
+
+          <br></br>
+          <br></br>
+
+          <div className="mb-3">
+            {/* <label>Email address</label> */}
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter email"
+              onChange={(e) => setState({ ...state, email: e.target.value })}
+            />
+          </div>
+
+          <br></br>
+          <br></br>
+
+          <div className="mb-3">
+            {/* <label>Email address</label> */}
+            <input
+              type="mobile"
+              className="form-control"
+              placeholder="Enter Mobile"
+              onChange={(e) => changeMobile(e)}
+            />
+            {state.verifyButton ? (
+              <input
+                type="button"
+                value={state.verified ? "verified" : "verify"}
+                style={{
+                  backgroundColor: "0163d2",
+                }}
+                onClick={onSignInSubmit}
+              />
             ) : null}
+          </div>
 
-            <br></br>
-            <br></br>
-            <div className="mb-3">
-              {/* <label>First name</label> */}
+          <br></br>
+          <br></br>
+
+          <div className="mb-3">
+            {/* <label>Email address</label> */}
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Enter OTP"
+              onChange={(e) => setState({ ...state, OTP: e.target.value })}
+            />
+            {state.verifyOTP ? (
               <input
-                type="text"
-                className="form-control"
-                placeholder="First name"
-                onChange={(e) => this.setState({ fname: e.target.value })}
+                type="button"
+                value={state.verified ? "verified" : "verify"}
+                style={{
+                  backgroundColor: "0163d2",
+                }}
+                onClick={verifyCode}
               />
-            </div>
+            ) : null}
+          </div>
 
-            <br></br>
-            <br></br>
+          <br></br>
+          <br></br>
 
-            <div className="mb-3">
-              {/* <label>Last name</label> */}
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Last name"
-                onChange={(e) => this.setState({ lname: e.target.value })}
-              />
-            </div>
+          <div className="mb-3">
+            {/* <label>Password</label> */}
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Enter password"
+              onChange={(e) => setState({ ...state, password: e.target.value })}
+            />
+          </div>
 
-            <br></br>
-            <br></br>
+          <br></br>
+          <br></br>
 
-            <div className="mb-3">
-              {/* <label>Email address</label> */}
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Enter email"
-                onChange={(e) => this.setState({ email: e.target.value })}
-              />
-            </div>
+          <div className="d-grid">
+            <Button type="submit" className="btn btn-primary">
+              Sign Up
+            </Button>
+          </div>
 
-            <br></br>
-            <br></br>
+          <br></br>
 
-            <div className="mb-3">
-              {/* <label>Email address</label> */}
-              <input
-                type="mobile"
-                className="form-control"
-                placeholder="Enter Mobile"
-                onChange={(e) => this.changeMobile(e)}
-              />
-              {this.state.verifyButton ? (
-                <input
-                  type="button"
-                  value={this.state.verified ? "verified" : "verify"}
-                  style={{
-                    backgroundColor: "0163d2",
-                  }}
-                  onClick={this.onSignInSubmit}
-                />
-              ) : null}
-            </div>
+          <p className="forgot-password text-right">
+            Already registered <a href="./login">sign in?</a>
+          </p>
+        </form>
+      </div>
+    </Wrapper>
+  );
+};
 
-            <br></br>
-            <br></br>
-            
 
-            <div className="mb-3">
-              {/* <label>Email address</label> */}
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter OTP"
-                onChange={(e) => this.setState({ OTP: e.target.value })}
-              />
-              {this.state.verifyOTP ? (
-                <input
-                  type="button"
-                  value={this.state.verified ? "verified" : "verify"}
-                  style={{
-                    backgroundColor: "0163d2",
-                  }}
-                  onClick={this.verifyCode}
-                />
-              ) : null}
-            </div>
 
-            <br></br>
-            <br></br>
-
-            <div className="mb-3">
-              {/* <label>Password</label> */}
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
-                onChange={(e) => this.setState({ password: e.target.value })}
-              />
-            </div>
-
-            <br></br>
-            <br></br>
-
-            <div className="d-grid">
-              <Button type="submit" className="btn btn-primary">
-                Sign Up
-              </Button>
-            </div>
-
-            <br></br>
-
-            <p className="forgot-password text-right">
-              Already registered <a href="./login">sign in?</a>
-            </p>
-          </form>
-        </div>
-      </Wrapper>
-    );
-  }
-}
 const Wrapper = styled.section`
   padding: 9rem 0 5rem 0;
   text-align: center;
