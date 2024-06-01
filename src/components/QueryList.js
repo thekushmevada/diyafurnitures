@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faMailBulk } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
 
 export default function AdminHome() {
   const [data, setData] = useState([]);
@@ -20,7 +21,6 @@ export default function AdminHome() {
   ];
 
   const getSingleQuery = (_id) => {
-    
     fetch("https://productssapi.onrender.com/getSingleQuery", {
       method: "POST",
       crossDomain: true,
@@ -37,7 +37,7 @@ export default function AdminHome() {
       .then((data) => {
         //   setData(data.data);
         // console.log(data.data.email);
-        if(data.status === "ok") {
+        if (data.status === "ok") {
           // console.log(data.status );
           alert("Mail sent Succesfully");
           // deleteUser();
@@ -69,69 +69,77 @@ export default function AdminHome() {
     }
   };
 
+  const StyledTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+    @media screen and (max-width: 768px) {
+      font-size: 12px; /* Decrease font size for smaller screens */
+    }
+  `;
+
+  const StyledTh = styled.th`
+    background-color: ${({ theme }) => theme.colors.footer_bg};
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-size: 18px; /* Increased font size for table headers */
+  `;
+
+  const StyledTd = styled.td`
+    border: 1px solid #dddddd;
+    padding: 12px;
+    font-size: 16px; /* Increased font size for table data cells */
+  `;
+
+  const StyledTr = styled.tr`
+    &:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    &:hover {
+      background-color: #e2e2e2;
+    }
+  `;
+
   return (
     <div>
-      <div>
-        <h4>Here are some queries for you!</h4>
-        <br></br>
-        <br></br>
-        <table style={{ width: "100%" }}>
+      <h4>Here are some queries for you!</h4>
+      <StyledTable>
+        <thead>
           <tr>
-            <th>
-              <h4>UserName</h4>
-            </th>
-            <th>
-              <h4>Email</h4>
-            </th>
-            <th>
-              <h4>Message</h4>
-            </th>
-            <th>
-              <h4>Mail</h4>
-            </th>
-            <th>
-              <h4>DeleteQuery</h4>
-            </th>
-            <th>
-              <h4>Responsed</h4>
-            </th>
+            <StyledTh>Username</StyledTh>
+            <StyledTh>Email</StyledTh>
+            <StyledTh>Message</StyledTh>
+            <StyledTh>Mail</StyledTh>
+            <StyledTh>Delete Query</StyledTh>
+            <StyledTh>Responsed</StyledTh>
           </tr>
-          {data.map((i) => {
-            return (
-              <tr>
-                <td>
-                  <h5>{i.username}</h5>{" "}
-                </td>
-                <td>
-                  <h5>{i.email}</h5>{" "}
-                </td>
-                <td>
-                  <h5>{i.Message}</h5>{" "}
-                </td>
-                <td>
-                  <h5>
-                    <FontAwesomeIcon
-                      icon={faMailBulk}
-                      onClick={() => getSingleQuery(i._id)}
-                    />
-                  </h5>
-                </td>
-                <td>
-                  <h5>
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      onClick={() => deleteUser(i._id, i.fname)}
-                    />
-                  </h5>
-                </td>
-                <td>
-                  <h5>{i.Response}</h5>
-                </td>
-              </tr>
-            );
-          })}
-        </table>
-      </div>
+        </thead>
+        <tbody>
+          {data.map((i) => (
+            <StyledTr key={i._id}>
+              <StyledTd>{i.username}</StyledTd>
+              <StyledTd>{i.email}</StyledTd>
+              <StyledTd>{i.Message}</StyledTd>
+              <StyledTd>
+                <FontAwesomeIcon
+                  icon={faMailBulk}
+                  onClick={() => getSingleQuery(i._id)}
+                />
+              </StyledTd>
+              <StyledTd>
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  onClick={() => deleteUser(i._id, i.fname)}
+                />
+              </StyledTd>
+              <StyledTd>{i.Response}</StyledTd>
+            </StyledTr>
+          ))}
+        </tbody>
+      </StyledTable>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
@@ -6,11 +6,43 @@ import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cart_context";
 // import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "../styles/Button";
+import axios from "axios";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
   const { total_item } = useCartContext();
   // const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const [state, setState] = useState({
+    userData: "",
+    pageType: "",
+  });
+
+  useEffect(() => {
+    axios.post("https://productssapi.onrender.com/userData", {
+      token: window.localStorage.getItem("token"),
+    })
+    .then((res) => {
+      const data = res.data;
+      setState(prevState => ({
+        ...prevState,
+        userData: data.data
+      }));
+      
+      if (data.data.userType === "user") {
+        window.location.href = "./";
+      }
+      
+      /*if (data.data === "token expired") {
+        alert("Token expired, Please login again!");
+        window.localStorage.clear();
+        window.location.href = "./login";
+      }*/
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle error if needed
+    });
+  }, []);
 
   const Nav = styled.nav`
     .navbar-lists {

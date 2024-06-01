@@ -12,30 +12,31 @@ export const UserDetails = () => {
   });
 
   useEffect(() => {
-    axios.post("https://productssapi.onrender.com/userData", {
-      token: window.localStorage.getItem("token"),
-    })
-    .then((res) => {
-      const data = res.data;
-      setState(prevState => ({
-        ...prevState,
-        userData: data.data
-      }));
-      
-      if (data.data.userType === "user") {
-        window.location.href = "./";
-      }
-      
-      if (data.data === "token expired") {
-        alert("Token expired, Please login again!");
-        window.localStorage.clear();
-        window.location.href = "./login";
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      // Handle error if needed
-    });
+    axios
+      .post("https://productssapi.onrender.com/userData", {
+        token: window.localStorage.getItem("token"),
+      })
+      .then((res) => {
+        const data = res.data;
+        setState((prevState) => ({
+          ...prevState,
+          userData: data.data,
+        }));
+
+        if (data.data.userType === "user") {
+          window.location.href = "./";
+        }
+
+        if (data.data === "token expired") {
+          alert("Token expired, Please login again!");
+          window.localStorage.clear();
+          window.location.href = "./login";
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle error if needed
+      });
   }, []);
 
   const handleSubmit = (e) => {
@@ -52,20 +53,31 @@ export const UserDetails = () => {
             <h3>Welcome, Admin!</h3>
             <div>
               <form onSubmit={handleSubmit}>
-                <input
-                  type="radio"
-                  name="userType"
-                  value="admins"
-                  onChange={(e) => setState({ ...state,pageType: e.target.value })}
-                />
-                <h4>Users</h4>
-                <input
-                  type="radio"
-                  name="userType"
-                  value="queries"
-                  onChange={(e) => setState({ ...state,pageType: e.target.value })}
-                />
-                <h4>Queries</h4>
+                <RadioButton>
+                  <input
+                    type="radio"
+                    id="users"
+                    name="userType"
+                    value="admins"
+                    onChange={(e) =>
+                      setState({ ...state, pageType: e.target.value })
+                    }
+                  />
+                  <label htmlFor="users">Users</label>
+                </RadioButton>
+                <RadioButton>
+                  <input
+                    type="radio"
+                    id="queries"
+                    name="userType"
+                    value="queries"
+                    defaultChecked
+                    onChange={(e) =>
+                      setState({ ...state, pageType: e.target.value })
+                    }
+                  />
+                  <label htmlFor="queries">Queries</label>
+                </RadioButton>
               </form>
             </div>
             <div>
@@ -84,20 +96,34 @@ const Wrapper = styled.section`
   .container {
     padding: 9rem 0;
     text-align: center;
-    h2 {
-      font-size: 10rem;
-    }
     h3 {
       font-size: 4.2rem;
     }
-    h4 {
-      font-size: 2.3rem;
-    }
-    h5 {
-      font-size: 1.9rem;
-    }
-    p {
-      margin: 2rem 0;
-    }
+  }
+`;
+
+const RadioButton = styled.div`
+  display: inline-block; /* Display inline */
+  margin-right: 1rem;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 2.3rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    background-color: #f0f0f0;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: #fff;
   }
 `;
