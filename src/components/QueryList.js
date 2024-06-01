@@ -105,7 +105,6 @@ export default function AdminHome() {
 
   return (
     <div>
-      <h4>Here are some queries for you!</h4>
       <StyledTable>
         <thead>
           <tr>
